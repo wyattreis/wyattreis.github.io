@@ -39,15 +39,6 @@ one_hour_uf_post0110 <- read.table(
 
 ## N:/RStor/dmcgrath/Glacier/Cameron Peak Fire/2022 Field Season/Automated Data/Unburned/Data_220406/
 
-# ## Unburned forest fifteen minute data since 1/10, convert to MST from UTC, filter to only include data since 11/19/2021 14:00:00
-# fifteen_min_uf_post0110 <- read.table(
-#   "N:/RStor/dmcgrath/Glacier/Cameron Peak Fire/2022 Field Season/Automated Data/Unburned/Data_220406/CR1000_7_Fifteen_Minute.dat",
-#   sep = ",", header = TRUE, skip = "1") %>%
-#   slice(., -(1:2)) %>%
-#   mutate(TIMESTAMP = ymd_hms(TIMESTAMP), TIMESTAMP = TIMESTAMP - hours(7)) %>%
-#   mutate_if(is.character,as.numeric) %>%
-#   mutate(site = 'uf') 
-
 ## combine unburned data into one df
 one_hour_uf <- bind_rows(one_hour_uf_pre0110, one_hour_uf_post0110)
 
@@ -95,22 +86,23 @@ all_rad_daily <- all_rad %>%
 
 ```{r fig.width=12,fig.height=7}
 
-# Shortwave In
-swin_daily<- ggplot(all_rad_daily) +
-  geom_line(aes(x = date, y= SWin_Avg_sum, color = site)) +
-  ggtitle("SWin daily sum") +
+# Shortwave
+sw_daily<- ggplot(all_rad_daily) +
+  geom_line(aes(x = date, y= SWin_Avg_sum, color = site, linetype = "SWin")) +
+  geom_line(aes(x = date, y= SWout_Avg_sum, color = site, linetype = "SWout")) +
+  ggtitle("SW daily sum") +
   scale_color_manual(values = c("black", "green"))
-ggplotly(swin_daily)
+ggplotly(sw_daily)
 
 swin_daily_cum<- ggplot(all_rad_daily) +
   geom_line(aes(x = date, y= cumSWin, color = site)) +
   ggtitle("SWin cumulative daily sum") +
-  scale_color_manual(values = c("black", "green"))
+  scale_color_manual(values = c("black", "green", "blue", "yellow"))
 ggplotly(swin_daily_cum)
 
 swin_daily_ratio<- ggplot(all_rad_daily, aes(x = date, y= SWin_ratio, color = site)) +
   geom_line() +
-  ggtitle("SWin daily ratio (UF/BF)")+
+  ggtitle("SWin daily ratio (UF/BF)") +
   scale_color_manual(values = c("black", "green"))
 ggplotly(swin_daily_ratio)
 
