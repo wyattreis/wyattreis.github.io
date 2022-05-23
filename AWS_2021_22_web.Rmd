@@ -30,7 +30,7 @@ one_hour_uf_pre0110 <- read.table(
 
 ## Unburned forest hourly data since 1/10, convert to MST from UTC, filter to only include data since 11/19/2021 14:00:00
 one_hour_uf_post0110 <- read.table(
-  "CR1000_7_One_Hour_0406.dat",
+  "CR1000_7_One_Hour_0515.dat",
   sep = ",", header = TRUE, skip = "1") %>%
   slice(., -(1:2)) %>%
   mutate(TIMESTAMP = ymd_hms(TIMESTAMP), TIMESTAMP = TIMESTAMP - hours(7)) %>%
@@ -53,7 +53,7 @@ one_hour_uf <- bind_rows(one_hour_uf_pre0110, one_hour_uf_post0110)
 
 ## Burned forest hourly data, convert to MST from UTC, filter to only include data since 11/19/2021 14:00:00
 one_hour_bf <- read.table(
-  "CR1000XSeries - new_Hourly.dat",
+  "CR1000XSeries - new_Hourly_0515.dat",
   sep = ",", header = TRUE, skip = "1") %>%
   slice(., -(1:2)) %>%
   mutate(TIMESTAMP = ymd_hms(TIMESTAMP), TIMESTAMP = TIMESTAMP - hours(7)) %>%
